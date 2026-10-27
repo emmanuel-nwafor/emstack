@@ -1,0 +1,171 @@
+"use client";
+
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
+
+export default function CustomCursor() {
+  const spotlightRef = useRef<HTMLDivElement>(null);
+  const glowCoreRef = useRef<HTMLDivElement>(null);
+  const projectCursorRef = useRef<HTMLDivElement>(null);
+  const projectLabelRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+
+    const spotlight = spotlightRef.current;
+    const glowCore = glowCoreRef.current;
+    const projectCursor = projectCursorRef.current;
+    const projectLabel = projectLabelRef.current;
+    if (!spotlight || !glowCore || !projectCursor) return;
+
+    gsap.set(spotlight, {
+      xPercent: -50,
+      yPercent: -50,
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+      scale: 1,
+      opacity: 1,
+    });
+
+    gsap.set(glowCore, {
+      xPercent: -50,
+      yPercent: -50,
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+    });
+
+    gsap.set(projectCursor, {
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+      scale: 0.8,
+      opacity: 0,
+    });
+
+    const xSpotlight = gsap.quickTo(spotlight, "x", { duration: 0.65, ease: "power2.out" });
+    const ySpotlight = gsap.quickTo(spotlight, "y", { duration: 0.65, ease: "power2.out" });
+    const xGlow = gsap.quickTo(glowCore, "x", { duration: 0.1, ease: "power2.out" });
+    const yGlow = gsap.quickTo(glowCore, "y", { duration: 0.1, ease: "power2.out" });
+    const xProject = gsap.quickTo(projectCursor, "x", { duration: 0.08, ease: "power1.out" });
+    const yProject = gsap.quickTo(projectCursor, "y", { duration: 0.08, ease: "power1.out" });
+
+    let isOverProjectCard = false;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      xSpotlight(e.clientX);
+      ySpotlight(e.clientY);
+      xGlow(e.clientX);
+      yGlow(e.clientY);
+      xProject(e.clientX);
+      yProject(e.clientY);
+
+      const target = e.target as HTMLElement | null;
+      const projectCard = target?.closest("[data-project-card]");
+      const isInsideWork = target?.closest("#work");
+
+      if (projectCard || isInsideWork) {
+        document.body.style.cursor = "none";
+        const title =
+          projectCard?.getAttribute("data-project-title") ||
+          isInsideWork?.querySelector("[data-project-title]")?.getAttribute("data-project-title") ||
+          "";
+
+        if (title && projectLabel) {
+          projectLabel.textContent = title;
+        }
+
+        if (!isOverProjectCard) {
+          isOverProjectCard = true;
+          gsap.to(projectCursor, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.25,
+            ease: "back.out(1.7)",
+            overwrite: "auto",
+          });
+          gsap.to(glowCore, {
+            opacity: 0,
+            scale: 0.2,
+            duration: 0.2,
+            overwrite: "auto",
+          });
+        }
+      } else {
+        document.body.style.cursor = "";
+        if (isOverProjectCard) {
+          isOverProjectCard = false;
+          gsap.to(projectCursor, {
+            opacity: 0,
+            scale: 0.8,
+            duration: 0.2,
+            ease: "power2.out",
+            overwrite: "auto",
+          });
+          gsap.to(glowCore, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.2,
+            overwrite: "auto",
+          });
+        }
+      }
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+
+    return () => {
+      document.body.style.cursor = "";
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
+
+  return (
+    <>
+      <div
+        ref={spotlightRef}
+        className="pointer-events-none fixed top-0 left-0 z-0 h-[950px] w-[950px] sm:h-[1100px] sm:w-[1100px] rounded-full will-change-transform"
+        style={{
+          background: `radial-gradient(circle, rgba(168, 85, 247, 0.16) 0%, rgba(147, 51, 234, 0.08) 35%, rgba(99, 102, 241, 0.03) 55%, transparent 75%)`,
+          filter: "blur(60px)",
+        }}
+      />
+
+      <div
+        ref={glowCoreRef}
+        className="pointer-events-none fixed top-0 left-0 z-50 h-5 w-5 rounded-full will-change-transform mix-blend-screen"
+        style={{
+          background: "radial-gradient(circle, rgba(216, 180, 254, 0.8) 0%, rgba(168, 85, 247, 0.3) 60%, transparent 100%)",
+        }}
+      />
+
+      <div
+        ref={projectCursorRef}
+        className="pointer-events-none fixed top-0 left-0 z-50 flex items-center gap-2.5 will-change-transform -translate-x-2 -translate-y-2 select-none"
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] shrink-0"
+        >
+          <path
+            d="M3 2L10 20L13.5 13.5L20 10L3 2Z"
+            fill="white"
+            stroke="#0a0a0c"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+          />
+        </svg>
+
+        <span
+          ref={projectLabelRef}
+          className="px-3.5 py-1.5 rounded-full text-xs font-mono font-bold tracking-wide text-slate-950 bg-purple-300 border border-purple-200/90 shadow-[0_4px_16px_rgba(168,85,247,0.45)] whitespace-nowrap"
+        >
+          GoEatOne
+        </span>
+      </div>
+    </>
+  );
+}
