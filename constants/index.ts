@@ -258,3 +258,10 @@ export interface LiquidGlassToggleProps {
   className?: string;
 }
 
+export const CAREER_START_YEAR = 2022;
+
+export function getYearsOfExperience(): number {
+  const currentYear = new Date().getFullYear();
+  return Math.max(4, currentYear - CAREER_START_YEAR);
+}
+

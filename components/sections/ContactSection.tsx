@@ -16,9 +16,10 @@ export default function ContactSection({ topics }: ContactSectionProps) {
         <span>
           &copy; 2026 Emmanuel ~ EMSTACK &bull; AI Automation, Software &amp; Mobile Engineering
         </span>
-        <span>
-          Crafted with Next.js 16, GSAP Physics, HTML5 Canvas &amp; Liquid Glass
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <span>Available for select engineering contracts &bull; Remote worldwide</span>
+        </div>
       </footer>
     </section>
   );

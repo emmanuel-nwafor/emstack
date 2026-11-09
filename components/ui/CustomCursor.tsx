@@ -11,7 +11,9 @@ export default function CustomCursor() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (window.matchMedia("(pointer: coarse)").matches) return;
+    if (window.innerWidth < 1024 || window.matchMedia("(pointer: coarse)").matches || "ontouchstart" in window) {
+      return;
+    }
 
     const spotlight = spotlightRef.current;
     const glowCore = glowCoreRef.current;
@@ -33,6 +35,7 @@ export default function CustomCursor() {
       yPercent: -50,
       x: window.innerWidth / 2,
       y: window.innerHeight / 2,
+      opacity: 0,
     });
 
     gsap.set(projectCursor, {
@@ -42,16 +45,19 @@ export default function CustomCursor() {
       opacity: 0,
     });
 
-    const xSpotlight = gsap.quickTo(spotlight, "x", { duration: 0.65, ease: "power2.out" });
-    const ySpotlight = gsap.quickTo(spotlight, "y", { duration: 0.65, ease: "power2.out" });
-    const xGlow = gsap.quickTo(glowCore, "x", { duration: 0.1, ease: "power2.out" });
-    const yGlow = gsap.quickTo(glowCore, "y", { duration: 0.1, ease: "power2.out" });
-    const xProject = gsap.quickTo(projectCursor, "x", { duration: 0.08, ease: "power1.out" });
-    const yProject = gsap.quickTo(projectCursor, "y", { duration: 0.08, ease: "power1.out" });
+    const xSpotlight = gsap.quickTo(spotlight, "x", { duration: 0.45, ease: "power2.out" });
+    const ySpotlight = gsap.quickTo(spotlight, "y", { duration: 0.45, ease: "power2.out" });
+    const xGlow = gsap.quickTo(glowCore, "x", { duration: 0.08, ease: "power2.out" });
+    const yGlow = gsap.quickTo(glowCore, "y", { duration: 0.08, ease: "power2.out" });
+    const xProject = gsap.quickTo(projectCursor, "x", { duration: 0.1, ease: "power2.out" });
+    const yProject = gsap.quickTo(projectCursor, "y", { duration: 0.1, ease: "power2.out" });
 
     let isOverProjectCard = false;
+    let isVisible = false;
 
     const handleMouseMove = (e: MouseEvent) => {
+      if (window.innerWidth < 1024) return;
+
       xSpotlight(e.clientX);
       ySpotlight(e.clientY);
       xGlow(e.clientX);
@@ -59,16 +65,17 @@ export default function CustomCursor() {
       xProject(e.clientX);
       yProject(e.clientY);
 
+      if (!isVisible) {
+        isVisible = true;
+        gsap.to(glowCore, { opacity: 1, duration: 0.2 });
+      }
+
       const target = e.target as HTMLElement | null;
       const projectCard = target?.closest("[data-project-card]");
-      const isInsideWork = target?.closest("#work");
 
-      if (projectCard || isInsideWork) {
+      if (projectCard) {
         document.body.style.cursor = "none";
-        const title =
-          projectCard?.getAttribute("data-project-title") ||
-          isInsideWork?.querySelector("[data-project-title]")?.getAttribute("data-project-title") ||
-          "";
+        const title = projectCard.getAttribute("data-project-title") || "";
 
         if (title && projectLabel) {
           projectLabel.textContent = title;
@@ -79,14 +86,14 @@ export default function CustomCursor() {
           gsap.to(projectCursor, {
             opacity: 1,
             scale: 1,
-            duration: 0.25,
-            ease: "back.out(1.7)",
+            duration: 0.2,
+            ease: "back.out(1.5)",
             overwrite: "auto",
           });
           gsap.to(glowCore, {
             opacity: 0,
             scale: 0.2,
-            duration: 0.2,
+            duration: 0.15,
             overwrite: "auto",
           });
         }
@@ -97,25 +104,34 @@ export default function CustomCursor() {
           gsap.to(projectCursor, {
             opacity: 0,
             scale: 0.8,
-            duration: 0.2,
+            duration: 0.18,
             ease: "power2.out",
             overwrite: "auto",
           });
           gsap.to(glowCore, {
             opacity: 1,
             scale: 1,
-            duration: 0.2,
+            duration: 0.18,
             overwrite: "auto",
           });
         }
       }
     };
 
+    const handleMouseLeave = () => {
+      document.body.style.cursor = "";
+      isOverProjectCard = false;
+      isVisible = false;
+      gsap.to([projectCursor, glowCore], { opacity: 0, duration: 0.2 });
+    };
+
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
       document.body.style.cursor = "";
       window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseleave", handleMouseLeave);
     };
   }, []);
 
@@ -132,7 +148,7 @@ export default function CustomCursor() {
 
       <div
         ref={glowCoreRef}
-        className="pointer-events-none fixed top-0 left-0 z-50 h-5 w-5 rounded-full will-change-transform mix-blend-screen"
+        className="pointer-events-none fixed top-0 left-0 z-50 h-5 w-5 rounded-full will-change-transform mix-blend-screen hidden lg:block opacity-0"
         style={{
           background: "radial-gradient(circle, rgba(216, 180, 254, 0.8) 0%, rgba(168, 85, 247, 0.3) 60%, transparent 100%)",
         }}
@@ -140,7 +156,7 @@ export default function CustomCursor() {
 
       <div
         ref={projectCursorRef}
-        className="pointer-events-none fixed top-0 left-0 z-50 flex items-center gap-2.5 will-change-transform -translate-x-2 -translate-y-2 select-none"
+        className="pointer-events-none fixed top-0 left-0 z-50 hidden lg:flex items-center gap-2.5 will-change-transform -translate-x-2 -translate-y-2 select-none opacity-0"
       >
         <svg
           width="24"

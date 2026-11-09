@@ -49,7 +49,7 @@ function GlassKnob({ isToggled }: GlassKnobProps) {
 
   return (
     <group>
-      {/* 3D Glass Sphere Knob */}
+      
       <mesh
         ref={meshRef}
         position={[-travelX, 0, 0.4]}
@@ -91,7 +91,7 @@ export default function LiquidGlassToggle({
 
   return (
     <div className={`relative inline-flex select-none ${className}`}>
-      {/* The 2D Track (HTML/DOM) */}
+      
       <div
         role="switch"
         aria-checked={isToggled}
@@ -107,7 +107,7 @@ export default function LiquidGlassToggle({
           border border-white/15 bg-neutral-900/70 backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.25),0_12px_40px_rgba(0,0,0,0.6)]
           transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40`}
       >
-        {/* Track Glow Accent Underlay */}
+        
         <div
           className={`absolute inset-0 rounded-full transition-opacity duration-700 pointer-events-none ${
             isToggled
@@ -156,7 +156,7 @@ export default function LiquidGlassToggle({
           </span>
         </div>
 
-        {/* The 3D Overlay (Canvas) */}
+        
         {isClient && (
           <div className="pointer-events-none absolute inset-0 h-full w-full overflow-visible">
             <Canvas

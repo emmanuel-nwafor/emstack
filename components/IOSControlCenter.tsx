@@ -269,7 +269,7 @@ export default function IOSControlCenter({
         <div className="grid grid-cols-2 gap-3 mt-1">
           <div className="grid grid-cols-2 gap-3">
             <a
-              href="https://github.com"
+              href="https://github.com/emmanuel-nwafor"
               target="_blank"
               rel="noreferrer"
               className="flex items-center justify-center aspect-square rounded-[22px] transition-all hover:scale-105 active:scale-95"
@@ -281,7 +281,7 @@ export default function IOSControlCenter({
               />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/emmanuel-chinecherem-767739284/"
               target="_blank"
               rel="noreferrer"
               className="flex items-center justify-center aspect-square rounded-[22px] transition-all hover:scale-105 active:scale-95"

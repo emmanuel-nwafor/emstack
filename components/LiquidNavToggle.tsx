@@ -60,7 +60,7 @@ export default function LiquidNavToggle({
       ref={containerRef}
       className="relative inline-flex items-center select-none"
     >
-      {/* The 2D Pill Track */}
+      
       <div
         role="switch"
         aria-checked={isSwe}
@@ -77,7 +77,7 @@ export default function LiquidNavToggle({
             : "bg-black/[0.05] border border-black/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.06)]"
         }`}
       >
-        {/* Left Option: "AI Automation" */}
+        
         <div
           className={`relative z-10 flex flex-1 h-full items-center justify-center gap-1.5 px-3 transition-colors duration-300 ${
             !isSwe
@@ -93,7 +93,7 @@ export default function LiquidNavToggle({
           <span className="text-[13px] tracking-tight">AI Automation</span>
         </div>
 
-        {/* Right Option: "Software Engineering" */}
+        
         <div
           className={`relative z-10 flex flex-1 h-full items-center justify-center gap-1.5 px-3 transition-colors duration-300 ${
             isSwe
@@ -108,12 +108,10 @@ export default function LiquidNavToggle({
           <span className="text-[13px] tracking-tight">Software Eng</span>
         </div>
 
-        {/* The Crystal Clear Liquid Glass Knob */}
         <div
           ref={knobRef}
           className="pointer-events-none absolute -left-[2px] -top-[4px] flex h-[58px] w-[176px] items-center justify-center rounded-full will-change-transform"
         >
-          {/* Layer 1: Pure Transparent Glass Volume with Specular Border (0 haze) */}
           <div
             className="absolute inset-0 rounded-full"
             style={{
@@ -137,7 +135,6 @@ export default function LiquidNavToggle({
             }}
           />
 
-          {/* Layer 2: Top Crescent Specular Highlight */}
           <div
             className="absolute inset-[1px] rounded-full pointer-events-none"
             style={{

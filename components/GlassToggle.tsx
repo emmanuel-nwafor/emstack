@@ -119,7 +119,7 @@ export default function GlassToggle({
       ref={containerRef}
       className={`relative inline-flex flex-col items-center select-none ${className}`}
     >
-      {/* 2D Track (Pill shape faithfully matching Reference 2) */}
+      
       <div
         role="switch"
         aria-checked={isDark}
@@ -143,7 +143,7 @@ export default function GlassToggle({
           `,
         }}
       >
-        {/* Left Text: "Dark" (shown when toggled to Dark mode) */}
+        
         <span
           ref={darkTextRef}
           className="absolute left-8 text-[32px] font-semibold tracking-tight text-white/95 transition-none"
@@ -152,7 +152,7 @@ export default function GlassToggle({
           Dark
         </span>
 
-        {/* Right Text: "Light" (shown when in Light mode, exactly matching Reference 2) */}
+        
         <span
           ref={lightTextRef}
           className="absolute right-9 text-[32px] font-semibold tracking-tight text-white/95 transition-none"
@@ -161,7 +161,7 @@ export default function GlassToggle({
           Light
         </span>
 
-        {/* The Glass Sphere Knob (152px diameter - overflowing 23px top & bottom) */}
+        
         <div
           ref={knobRef}
           className="pointer-events-none absolute -left-[6px] -top-[23px] flex h-[152px] w-[152px] items-center justify-center rounded-full will-change-transform"
@@ -169,7 +169,7 @@ export default function GlassToggle({
             filter: "drop-shadow(0 28px 36px rgba(0, 0, 0, 0.52)) drop-shadow(0 12px 18px rgba(0, 0, 0, 0.35))",
           }}
         >
-          {/* Layer 1: Ambient Glass Volume & Fresnel Vignette */}
+          
           <div
             className="absolute inset-0 rounded-full"
             style={{
@@ -191,12 +191,12 @@ export default function GlassToggle({
             }}
           />
 
-          {/* Layer 2: The Optical Meniscus (Pinched track contour inside the lens) */}
+          
           <div
             ref={meniscusRef}
             className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-full"
           >
-            {/* The refracted track silhouette that creates the exact meniscus seen in Reference 2 */}
+            
             <div
               className="absolute left-[8px] h-[78px] w-[100px] rounded-l-full"
               style={{
@@ -212,7 +212,7 @@ export default function GlassToggle({
             />
           </div>
 
-          {/* Layer 3: Glass Surface Curvature Sheen (Top crescent specular highlight) */}
+          
           <div
             className="absolute inset-[1px] rounded-full pointer-events-none"
             style={{

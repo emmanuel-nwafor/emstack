@@ -14,6 +14,11 @@ const clashDisplay = localFont({
 export const metadata: Metadata = {
   title: "Emmanuel | Mobile, Fullstack & AI Engineer",
   description: "Full-Stack, Mobile & AI Automation Engineer based in Nigeria",
+  icons: {
+    icon: "/portfolio-logo.png",
+    shortcut: "/portfolio-logo.png",
+    apple: "/portfolio-logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -27,6 +32,9 @@ export default function RootLayout({
       className={`${clashDisplay.variable} antialiased`}
     >
       <head>
+        <link rel="icon" href="/portfolio-logo.png" type="image/png" />
+        <link rel="shortcut icon" href="/portfolio-logo.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/portfolio-logo.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link

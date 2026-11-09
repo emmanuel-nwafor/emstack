@@ -33,9 +33,9 @@ function ProjectCardSlide({
     <div
       data-project-card
       data-project-title={project.name}
-      className="project-slide w-[88vw] sm:w-[84vw] lg:w-[1140px] shrink-0 relative select-none cursor-none"
+      className="project-slide w-full max-w-[540px] lg:max-w-none lg:w-[1140px] shrink-0 relative select-none lg:cursor-none"
     >
-      <div className="flex lg:hidden flex-col justify-between h-full max-h-[75vh] py-1 gap-2">
+      <div className="flex lg:hidden flex-col justify-between h-auto py-2 gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-[11px] font-mono text-neutral-400 font-bold">{project.id}</span>
@@ -53,7 +53,7 @@ function ProjectCardSlide({
           </h3>
         </div>
 
-        <div className="relative w-full rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-xl p-3 flex flex-col items-center justify-center overflow-hidden my-auto max-h-[310px]">
+        <div className="relative w-full rounded-xl sm:rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-xl p-3 sm:p-5 flex flex-col items-center justify-center overflow-hidden my-auto min-h-[330px] sm:min-h-[380px]">
           <span className="absolute top-2 left-2 font-mono text-xs text-white/20 select-none pointer-events-none">┌</span>
           <span className="absolute top-2 right-2 font-mono text-xs text-white/20 select-none pointer-events-none">┐</span>
           <span className="absolute bottom-2 left-2 font-mono text-xs text-white/20 select-none pointer-events-none">└</span>
@@ -64,19 +64,37 @@ function ProjectCardSlide({
           </span>
 
           {project.subApps && project.subApps.length > 0 && (
-            <div className="flex items-center gap-1 mb-2 p-0.5 rounded-xl bg-black/60 border border-white/10 z-20">
+            <div className="flex items-center justify-center gap-1.5 mb-3 p-1 rounded-full bg-black/80 border border-white/10 z-20 shadow-md">
               {project.subApps.map((sub, sIdx) => {
                 const isSelected = selectedSubAppIdx === sIdx;
+                const subIcon =
+                  sub.id === "customer"
+                    ? "lucide:user"
+                    : sub.id === "partners"
+                    ? "lucide:store"
+                    : "lucide:bike";
+                const shortLabel =
+                  sub.id === "customer"
+                    ? "Customer"
+                    : sub.id === "partners"
+                    ? "Partners"
+                    : "Riders";
                 return (
                   <button
                     key={sub.id}
                     type="button"
                     onClick={() => setSelectedSubAppIdx(sIdx)}
-                    className={`px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-medium transition-all ${
-                      isSelected ? "bg-purple-300 text-slate-950 font-bold" : "text-neutral-400 hover:text-white"
+                    className={`px-3 py-1.5 rounded-full text-[11px] font-mono font-medium transition-all flex items-center gap-1.5 ${
+                      isSelected
+                        ? "bg-purple-300 text-slate-950 font-bold shadow-sm"
+                        : "text-neutral-400 hover:text-white"
                     }`}
                   >
-                    {sub.label}
+                    <Icon
+                      icon={subIcon}
+                      className={`h-3 w-3 ${isSelected ? "text-slate-950" : "text-purple-300/80"}`}
+                    />
+                    <span>{shortLabel}</span>
                   </button>
                 );
               })}
@@ -84,8 +102,8 @@ function ProjectCardSlide({
           )}
 
           {isIphoneMode ? (
-            <div className="relative h-[190px] sm:h-[230px] aspect-[9/19.5] rounded-[30px] p-[6px] bg-gradient-to-b from-[#3a3f47] via-[#1c1f24] to-[#121417] shadow-xl ring-1 ring-white/25">
-              <div className="relative w-full h-full rounded-[24px] bg-black overflow-hidden flex flex-col justify-between">
+            <div className="relative h-[245px] sm:h-[285px] aspect-[9/19.5] rounded-2xl p-[6px] bg-gradient-to-b from-[#3a3f47] via-[#1c1f24] to-[#121417] shadow-2xl ring-1 ring-white/25">
+              <div className="relative w-full h-full rounded-xl bg-black overflow-hidden flex flex-col justify-between">
                 <div className="absolute top-1 left-1/2 -translate-x-1/2 z-30 h-3.5 w-14 rounded-full bg-black flex items-center justify-center pointer-events-none">
                   <div className="w-1.5 h-1.5 rounded-full bg-[#181a20]" />
                 </div>
@@ -96,7 +114,7 @@ function ProjectCardSlide({
                       src={displayImage}
                       alt={project.name}
                       fill
-                      sizes="220px"
+                      sizes="300px"
                       className="object-cover object-top"
                       priority={index === 0}
                     />
@@ -109,8 +127,8 @@ function ProjectCardSlide({
               </div>
             </div>
           ) : (
-            <div className="relative w-full max-w-[280px] rounded-xl border border-white/15 bg-[#0a0d14] overflow-hidden shadow-xl">
-              <div className="h-6 bg-[#121620] border-b border-white/10 px-2 flex items-center gap-1">
+            <div className="relative w-full max-w-[340px] sm:max-w-[400px] rounded-xl border border-white/15 bg-[#0a0d14] overflow-hidden shadow-2xl">
+              <div className="h-7 bg-[#121620] border-b border-white/10 px-2.5 flex items-center gap-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-rose-500/80" />
                 <span className="h-1.5 w-1.5 rounded-full bg-amber-500/80" />
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-500/80" />
@@ -121,7 +139,7 @@ function ProjectCardSlide({
                     src={project.image}
                     alt={project.name}
                     fill
-                    sizes="280px"
+                    sizes="400px"
                     className="object-cover object-top"
                     priority={index === 0}
                   />
@@ -302,7 +320,7 @@ function ProjectCardSlide({
         </div>
 
         <div className="col-span-6 relative">
-          <div className="relative w-full rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl p-5 sm:p-7 flex flex-col items-center justify-center overflow-hidden min-h-[440px] sm:min-h-[490px]">
+          <div className="relative w-full rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl p-4 sm:p-6 flex flex-col items-center justify-center overflow-hidden min-h-[440px] sm:min-h-[480px]">
             <span className="project-watermark absolute -right-4 -bottom-6 font-mono font-bold text-[140px] sm:text-[200px] text-white/[0.03] select-none pointer-events-none leading-none will-change-transform">
               {project.id}
             </span>
@@ -320,51 +338,74 @@ function ProjectCardSlide({
               ┘
             </span>
 
-            <div className="relative w-full flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 my-auto z-10">
+            <div className="relative w-full flex items-center justify-center gap-4 lg:gap-6 my-auto z-10">
               {project.subApps && project.subApps.length > 0 && (
-                <div className="flex flex-row sm:flex-col items-stretch gap-1.5 p-1 rounded-2xl bg-black/60 border border-white/10 backdrop-blur-md shrink-0 z-20">
+                <div className="flex flex-col items-stretch gap-2 p-1.5 rounded-2xl bg-black/75 border border-white/10 backdrop-blur-md z-20 shadow-2xl shrink-0">
                   {project.subApps.map((sub, sIdx) => {
                     const isSelected = selectedSubAppIdx === sIdx;
+                    const subIcon =
+                      sub.id === "customer"
+                        ? "lucide:user"
+                        : sub.id === "partners"
+                        ? "lucide:store"
+                        : "lucide:bike";
+                    const shortLabel =
+                      sub.id === "customer"
+                        ? "Customer"
+                        : sub.id === "partners"
+                        ? "Partners"
+                        : "Riders";
                     return (
                       <button
                         key={sub.id}
                         type="button"
                         onClick={() => setSelectedSubAppIdx(sIdx)}
-                        className={`px-3 py-2 rounded-xl text-[11px] font-mono font-medium transition-all duration-200 cursor-pointer flex items-center gap-2 text-left whitespace-nowrap ${
+                        title={sub.label}
+                        className={`group px-3 py-2 rounded-xl text-xs font-mono font-medium transition-all duration-200 cursor-pointer flex items-center gap-2.5 whitespace-nowrap text-left ${
                           isSelected
-                            ? "bg-purple-300 text-slate-950 font-bold shadow-sm"
-                            : "text-neutral-400 hover:text-white hover:bg-white/5"
+                            ? "bg-purple-300 text-slate-950 font-bold shadow-md shadow-purple-500/20 scale-[1.02]"
+                            : "text-neutral-400 hover:text-white hover:bg-white/10"
                         }`}
                       >
-                        <span className={`h-1.5 w-1.5 rounded-full shrink-0 ${isSelected ? "bg-slate-950" : "bg-purple-300/60"}`} />
-                        <span>{sub.label}</span>
+                        <Icon
+                          icon={subIcon}
+                          className={`h-4 w-4 shrink-0 transition-colors ${
+                            isSelected ? "text-slate-950" : "text-purple-300/80 group-hover:text-purple-300"
+                          }`}
+                        />
+                        <div className="flex flex-col leading-tight">
+                          <span className="font-semibold">{shortLabel}</span>
+                          <span className={`text-[9px] ${isSelected ? "text-slate-800" : "text-neutral-400"}`}>
+                            {sub.id === "customer" ? "App" : sub.id === "partners" ? "Hub" : "Delivery"}
+                          </span>
+                        </div>
                       </button>
                     );
                   })}
                 </div>
               )}
 
-              <div className="project-device relative flex flex-col items-center justify-center will-change-transform shrink-0">
+              <div className={`project-device relative flex flex-col items-center justify-center will-change-transform shrink-0 ${isIphoneMode ? "w-auto" : "w-full"}`}>
                 {isIphoneMode ? (
                   <div className="relative my-1">
-                    <div className="absolute -left-[3px] top-[75px] w-[3px] h-6 bg-[#2e333a] rounded-l-sm" />
-                    <div className="absolute -left-[3px] top-[115px] w-[3px] h-10 bg-[#2e333a] rounded-l-sm" />
-                    <div className="absolute -left-[3px] top-[165px] w-[3px] h-10 bg-[#2e333a] rounded-l-sm" />
-                    <div className="absolute -right-[3px] top-[125px] w-[3px] h-14 bg-[#2e333a] rounded-r-sm" />
+                    <div className="absolute -left-[3px] top-[70px] w-[3px] h-5 bg-[#2e333a] rounded-l-sm" />
+                    <div className="absolute -left-[3px] top-[105px] w-[3px] h-8 bg-[#2e333a] rounded-l-sm" />
+                    <div className="absolute -left-[3px] top-[150px] w-[3px] h-8 bg-[#2e333a] rounded-l-sm" />
+                    <div className="absolute -right-[3px] top-[115px] w-[3px] h-12 bg-[#2e333a] rounded-r-sm" />
 
-                    <div className="relative w-[205px] sm:w-[225px] aspect-[9/19.5] rounded-[44px] p-[9px] bg-gradient-to-b from-[#3a3f47] via-[#1c1f24] to-[#121417] shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_30px_rgba(168,85,247,0.12)] ring-1 ring-white/25">
-                      <div className="relative w-full h-full rounded-[36px] bg-black overflow-hidden border border-black flex flex-col justify-between">
+                    <div className="relative w-[210px] lg:w-[220px] aspect-[9/19.5] rounded-[40px] p-[8px] bg-gradient-to-b from-[#3a3f47] via-[#1c1f24] to-[#121417] shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_30px_rgba(168,85,247,0.12)] ring-1 ring-white/25">
+                      <div className="relative w-full h-full rounded-[32px] bg-black overflow-hidden border border-black flex flex-col justify-between">
                         <div className="absolute top-1 left-1/2 -translate-x-1/2 w-10 h-1 rounded-full bg-white/10 z-30 pointer-events-none" />
 
-                        <div className="absolute top-2 left-1/2 -translate-x-1/2 z-30 h-4.5 w-20 rounded-full bg-black flex items-center justify-between px-2 shadow-md pointer-events-none">
-                          <div className="w-2 h-2 rounded-full bg-[#181a20] ring-1 ring-white/15 flex items-center justify-center">
+                        <div className="absolute top-2 left-1/2 -translate-x-1/2 z-30 h-4 w-18 rounded-full bg-black flex items-center justify-between px-2 shadow-md pointer-events-none">
+                          <div className="w-1.5 h-1.5 rounded-full bg-[#181a20] ring-1 ring-white/15 flex items-center justify-center">
                             <div className="w-1 h-1 rounded-full bg-[#0d2238]" />
                           </div>
                           <div className="w-1.5 h-1.5 rounded-full bg-[#111317]" />
                         </div>
 
                         <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.05] to-transparent pointer-events-none z-20" />
-                        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 w-24 h-1 rounded-full bg-white/50 backdrop-blur-sm pointer-events-none" />
+                        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 w-20 h-1 rounded-full bg-white/50 backdrop-blur-sm pointer-events-none" />
 
                         {displayImage ? (
                           <div className="relative w-full h-full overflow-hidden">
@@ -373,7 +414,7 @@ function ProjectCardSlide({
                               src={displayImage}
                               alt={currentSubApp ? currentSubApp.label : project.name}
                               fill
-                              sizes="(max-width: 768px) 205px, 225px"
+                              sizes="(max-width: 1024px) 210px, 220px"
                               className="object-cover object-top"
                               priority={index === 0}
                             />
@@ -394,7 +435,7 @@ function ProjectCardSlide({
                     </div>
                   </div>
                 ) : (
-                  <div className="relative w-full max-w-[440px] rounded-2xl border border-white/15 bg-[#0a0d14] overflow-hidden my-1 shadow-2xl">
+                  <div className="relative w-full max-w-[540px] rounded-2xl border border-white/15 bg-[#0a0d14] overflow-hidden my-1 shadow-2xl">
                     <div className="h-8 bg-[#121620] border-b border-white/10 px-3.5 flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
                         <span className="h-2 w-2 rounded-full bg-rose-500/80" />
@@ -414,7 +455,7 @@ function ProjectCardSlide({
                           src={project.image}
                           alt={project.name}
                           fill
-                          sizes="(max-width: 768px) 100vw, 440px"
+                          sizes="(max-width: 1024px) 100vw, 540px"
                           className="object-cover object-top"
                           priority={index === 0}
                         />
@@ -457,7 +498,9 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
     const track = trackRef.current;
     if (typeof window === "undefined" || !container || !track) return;
 
-    const ctx = gsap.context(() => {
+    const mm = gsap.matchMedia();
+
+    mm.add("(min-width: 1024px)", () => {
       const getScrollAmount = () => {
         return Math.max(0, track.scrollWidth - window.innerWidth + 200);
       };
@@ -511,9 +554,30 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
           },
         });
       }
-    }, container);
+    });
 
-    return () => ctx.revert();
+    mm.add("(max-width: 1023px)", () => {
+      const slides = track.querySelectorAll(".project-slide");
+      slides.forEach((slide) => {
+        gsap.fromTo(
+          slide,
+          { opacity: 0, y: 35 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.65,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: slide,
+              start: "top 85%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
+    });
+
+    return () => mm.revert();
   }, [projects]);
 
   const scrollToSlide = (idx: number) => {
@@ -531,9 +595,9 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
     <section
       id="work"
       ref={containerRef}
-      className="relative z-20 w-full h-screen overflow-hidden border-t border-white/10 bg-[#050608] flex flex-col justify-between py-4 sm:py-6 select-none cursor-none"
+      className="relative z-20 w-full min-h-screen lg:h-screen lg:overflow-hidden border-t border-white/10 bg-[#050608] flex flex-col justify-between py-12 lg:py-6 select-none"
     >
-      <header className="max-w-7xl mx-auto w-full px-6 sm:px-12 lg:px-20 flex flex-col sm:flex-row sm:items-end justify-between gap-3 z-20 shrink-0 mb-2 sm:mb-4">
+      <header className="max-w-7xl mx-auto w-full px-6 sm:px-12 lg:px-20 flex flex-col sm:flex-row sm:items-end justify-between gap-3 z-20 shrink-0 mb-6 sm:mb-4">
         <div>
           <span className="text-xs font-mono font-semibold text-purple-300 uppercase tracking-widest">
             02 — Projects
@@ -546,7 +610,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
           </h2>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-4">
           <span className="text-xs font-mono text-neutral-400 hidden sm:inline-block">
             Keep scrolling
           </span>
@@ -588,10 +652,10 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
         </div>
       </header>
 
-      <div className="relative flex-1 flex items-center overflow-visible w-full my-auto z-10">
+      <div className="relative flex-1 flex items-center lg:overflow-visible w-full my-auto z-10">
         <div
           ref={trackRef}
-          className="flex items-center gap-20 sm:gap-28 lg:gap-36 w-max px-6 sm:px-16 lg:px-24 will-change-transform"
+          className="flex flex-col lg:flex-row items-center gap-14 sm:gap-20 lg:gap-36 w-full lg:w-max px-4 sm:px-8 lg:px-24 will-change-transform"
         >
           {projects.map((p, idx) => (
             <ProjectCardSlide

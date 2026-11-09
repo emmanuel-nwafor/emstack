@@ -82,7 +82,7 @@ export default function BubbleMenu() {
       ref={containerRef}
       className="relative inline-flex flex-col items-center select-none"
     >
-      {/* 2D Cobalt Blue Track (Clean, crisp, no blur, no muddy shadows) */}
+      
       <div
         className="relative flex h-[84px] w-[440px] items-center rounded-full bg-gradient-to-b from-[#135dec] to-[#0a4dd8]"
         style={{
@@ -93,7 +93,7 @@ export default function BubbleMenu() {
           `,
         }}
       >
-        {/* The 3 Interactive Tab Buttons */}
+        
         {TABS.map((tab, idx) => {
           const isActive = activeIndex === idx;
           return (
@@ -129,7 +129,7 @@ export default function BubbleMenu() {
                   </div>
                 )}
 
-                {/* Tab 2: Account Icon */}
+                
                 {tab.id === "account" && (
                   <div
                     className={`flex flex-col items-center justify-center gap-0.5 transition-all duration-300 ${

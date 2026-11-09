@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import CanvasFramePlayer from "@/components/CanvasFramePlayer";
-import { HeroSectionProps } from "@/constants";
+import { HeroSectionProps, getYearsOfExperience } from "@/constants";
 import { Icon } from "@iconify/react";
 
 if (typeof window !== "undefined") {
@@ -214,7 +214,7 @@ export default function HeroSection({
             {isSwe ? (
               <>
                 <p>
-                  I&apos;m a Full-Stack &amp; Mobile Engineer with 5+ years of experience building digital products across fintech, logistics, B2B, and consumer industries.
+                  I&apos;m a Full-Stack &amp; Mobile Engineer with {getYearsOfExperience()}+ years of experience building digital products across fintech, logistics, B2B, and consumer industries.
                 </p>
                 <p>
                   Currently engineering mobile and web platforms at{" "}
@@ -244,10 +244,10 @@ export default function HeroSection({
             ) : (
               <>
                 <p>
-                  I&apos;m an AI Automation Architect &amp; Systems Engineer with 5+ years of experience building autonomous agent swarms, self-healing workflow orchestrators, and enterprise integrations.
+                  I&apos;m an AI Automation Architect &amp; Systems Engineer building autonomous agent swarms, self-healing workflow orchestrators, and enterprise integrations.
                 </p>
                 <p>
-                  Currently engineering autonomous AI workflows at{" "}
+                  Engineered autonomous AI workflows at{" "}
                   <InteractivePill
                     badge="D"
                     badgeBg="#059669"
@@ -260,9 +260,9 @@ export default function HeroSection({
                   <InteractivePill
                     badge="L"
                     badgeBg="#9333ea"
-                    name="LangGraph & MCP"
-                    title="LangGraph & FastMCP"
-                    desc="Autonomous function calling, tool orchestration & deterministic state graphs."
+                    name="LangChain"
+                    title="LangChain & Tools"
+                    desc="Autonomous function calling, tool orchestration & prompt chains."
                     onClick={() => onScrollTo("toolkit")}
                   />
                   .
@@ -283,9 +283,10 @@ export default function HeroSection({
               <span>Start Conversation</span>
               <Icon icon="lucide:arrow-right" className="h-3.5 w-3.5" />
             </button>
+
             <a
-              href="/cv.pdf"
-              download="Emmanuel_Nwafor_CV.pdf"
+              href={isSwe ? "/Emmanuel_Nwafor_Software_Engineer_CV.pdf" : "/Emmanuel_Nwafor_AI_Automation_CV.pdf"}
+              download={isSwe ? "Emmanuel_Nwafor_Software_Engineer_CV.pdf" : "Emmanuel_Nwafor_AI_Automation_CV.pdf"}
               className="flex items-center gap-2 px-6 py-3.5 rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-md text-white font-semibold text-xs hover:bg-white/[0.08] hover:border-white/20 transition-all hover:scale-105 active:scale-95"
             >
               <span>Download CV</span>
@@ -296,7 +297,7 @@ export default function HeroSection({
           <div ref={socialsRef} className="flex items-center gap-5 mt-8 pt-6 border-t border-white/10 text-xs font-mono text-neutral-400">
             <span className="text-neutral-500">Find me on:</span>
             <a
-              href="https://github.com"
+              href="https://github.com/emmanuel-nwafor"
               target="_blank"
               rel="noreferrer"
               className="flex items-center gap-1.5 hover:text-purple-300 transition-colors"
@@ -305,16 +306,7 @@ export default function HeroSection({
               <span>GitHub</span>
             </a>
             <a
-              href="https://x.com"
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-1.5 hover:text-purple-300 transition-colors"
-            >
-              <Icon icon="simple-icons:x" className="h-3 w-3" />
-              <span>Twitter / X</span>
-            </a>
-            <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/emmanuel-chinecherem-767739284/"
               target="_blank"
               rel="noreferrer"
               className="flex items-center gap-1.5 hover:text-purple-300 transition-colors"
